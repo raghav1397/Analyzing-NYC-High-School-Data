@@ -2,20 +2,25 @@ import pandas as pd
 import numpy
 import re
 
-data_files = [
-    "D:\\dataquest\\projects\\ap_2010.csv",
-    "D:\\dataquest\\projects\\class_size.csv",
+files = [
     "D:\\dataquest\\projects\\demographics.csv",
+    "D:\\dataquest\\projects\\sat_results.csv",
     "D:\\dataquest\\projects\\graduation.csv",
     "D:\\dataquest\\projects\\hs_directory.csv",
-    "D:\\dataquest\\projects\\sat_results.csv"
+    "D:\\dataquest\\projects\\ap_2010.csv",
+    "D:\\dataquest\\projects\\class_size.csv"
 ]
 
-data = {}
+data = dict()
 
-for f in data_files:
-    d = pd.read_csv("{0}".format(f))
-    data[f.replace(".csv", "")] = d
+data["demographics"] = pd.read_csv(files[0])
+data["sat_results"] = pd.read_csv(files[1])
+data["graduation"] = pd.read_csv(files[2])
+data["hs_directory"] = pd.read_csv(files[3])
+data["ap_2010"] = pd.read_csv(files[4])
+data["class_size"] = pd.read_csv(files[5])
+#data["all_survey"] = pd.read_csv(files[6],encoding="Windows-1252",delimiter='\t')
+#data["d75_survey"] = pd.read_csv(files[7],encoding="Windows-1252",delimiter='\t')
 
 all_survey = pd.read_csv("D:\\dataquest\\projects\\survey_all.txt", delimiter="\t", encoding='windows-1252')
 d75_survey = pd.read_csv("D:\\dataquest\\projects\\survey_d75.txt", delimiter="\t", encoding='windows-1252')
@@ -51,7 +56,8 @@ survey_fields = [
 survey = survey[survey_fields]
 data["survey"] = survey
 
-data["hs_directory"]["DBN"] = data["hs_directory"]["dbn"]
+#data["hs_directory"]["DBN"] = data["hs_directory"]["dbn"]
+data["hs_directory"].rename(columns= {"dbn":"DBN"},inplace=True)
 
 def pad_csd(num):
     string_representation = str(num)
